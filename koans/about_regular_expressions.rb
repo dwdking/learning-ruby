@@ -53,6 +53,29 @@ class AboutRegularExpressions < Neo::Koan
     assert_equal(["cat", "bat", "rat"], animals.select { |a| a[/[cbr]at/] })
   end
 
+  class Animal 
+    attr_accessor :label, :type
+
+    def initialize(initial_label, initial_type)
+      @label = initial_label
+      @type = initial_type
+    end
+  end
+
+  def test_character_classes_give_options_for_a_character_2
+    cat = Animal.new("cat", "pet")
+    fat = Animal.new("fat", "pet")
+    bat = Animal.new("bat", "flying")
+    rat = Animal.new("rat", "rodent")
+    zat = Animal.new("zat", "nothing")
+    animals = [cat, fat, bat, rat, zat]
+    selected_animals = animals.select do |a|
+      a.label[/[cf]at/]
+      a.type == ("pet")
+    end
+    assert_equal([cat, fat], selected_animals)
+  end
+
   def test_slash_d_is_a_shortcut_for_a_digit_character_class
     assert_equal("42", "the number is 42"[/[0123456789]+/])
     assert_equal("42", "the number is 42"[/\d+/])
